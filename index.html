@@ -1,3 +1,59 @@
+<?php
+$stav = 0;
+$pocet = 6;
+
+
+
+
+/*print_r($_SERVER);*/
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(isset($_POST['email']) && isset($_POST['pas']) && isset($_POST ['pas2'])){
+        if(empty($_POST ['email']) || empty($_POST ['pas']) || empty($_POST ['pas2'])){
+            $stav = 0;
+            $error = "Navyplnil si všetko";
+        }
+        else{
+            $email = $_POST['email'];
+            if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $password = $_POST['pas'];
+                $passwordV = $_POST['pas2'];
+                if(mb_strlen($password) > 5){
+                    if($password === $passwordV){
+                        $stav = 1;
+                        $error = "";
+                    }
+                    else{
+                        $error =  "Nemáš zhodné heslá";
+                    }
+                }
+                else{
+                    $error =  "Nemáš dosť dlhé heslo ";
+                }
+            }
+            else{
+                $error =  "Invalid email";
+            }
+        }
+    }
+    else{
+        $error =  "Je to prázdný";
+    }
+}
+else{
+    $error =  "ERROR";
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +99,7 @@
             <div>Don't have an account yet?</div>
             <a href="#" class="btn3"> Register for free</a>
         </div> <br>
+        <div class="Spodok1"><?php echo $error; ?></div>
     
     
         
